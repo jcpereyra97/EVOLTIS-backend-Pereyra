@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserDomain.DTOs
+namespace UserApplication.DTOs
 {
     public record DomicilioDTO
     {

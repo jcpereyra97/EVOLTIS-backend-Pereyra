@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserDomain.DTOs
+namespace UserApplication.DTOs
 {
-    public record UsuarioDTO
+    public record ObtenerUsuarioDTO
     {
+        public int ID { get; set; }
         public string Nombre { get; set; }
         public string Email { get; set; }
+        public DateTime FechaCreacion { get; set; }
        
     }
 }

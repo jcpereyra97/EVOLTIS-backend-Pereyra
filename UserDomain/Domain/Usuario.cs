@@ -12,6 +12,7 @@ namespace UserDomain.Domain
         public string Nombre { get; private set; }
         public string Email { get; private set; }
         public DateTime FechaCreacion { get; private set; }
+        public Domicilio Domicilio { get; private set; }
 
         public Usuario(string nombre, string email)
         {
