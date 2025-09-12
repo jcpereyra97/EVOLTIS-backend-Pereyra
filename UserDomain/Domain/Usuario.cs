@@ -13,7 +13,7 @@ namespace UserDomain.Domain
         public string Email { get; private set; }
         public DateTime FechaCreacion { get; private set; }
         public Domicilio Domicilio { get; private set; }
-
+        public Usuario() {}
         public Usuario(string nombre, string email)
         {
 

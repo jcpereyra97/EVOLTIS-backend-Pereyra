@@ -17,6 +17,8 @@ namespace UserInfrastructure.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasCharSet("utf8mb4").UseCollation("utf8mb4_0900_ai_ci");
+
             modelBuilder.Entity<Usuario>(p =>
             {
                 p.ToTable("Usuarios");
