@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserDomain.DTOs
 {
-    public class DomicilioDTO
+    public record DomicilioDTO
     {
         public int UsuarioID { get; set; }
         public string Calle { get; set; }

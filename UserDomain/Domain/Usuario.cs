@@ -15,17 +15,22 @@ namespace UserDomain.Domain
 
         public Usuario(string nombre, string email)
         {
-            Nombre = nombre;
+
+            if (string.IsNullOrEmpty(nombre) || nombre.Trim().Length is < 2 or 100)
+                throw new ArgumentOutOfRangeException(nameof(nombre),"2-100 caracteres");            
+            Nombre = nombre.Trim();
             Email = email;
             FechaCreacion = DateTime.UtcNow;
         }
+
+
 
         public void UpdateName(string name)
         {
             Nombre = name;
         }
 
-        public void UpdateEmail(string email)
+        public void CambiarEmail(string email)
         {
             Email = email;
         }
