@@ -1,0 +1,22 @@
+.vs/
+*.suo
+*.user
+*.rsuser
+*.vsidx
+
+# Build .NET
+[Bb]in/
+[Oo]bj/
+*.pdb
+*.cache
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+*.nuspec
+
+# Logs/otros
+*.log
+Thumbs.db
+.DS_Store
