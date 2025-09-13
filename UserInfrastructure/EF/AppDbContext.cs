@@ -29,9 +29,9 @@ namespace UserInfrastructure.EF
                 p.HasIndex(x => x.Email).IsUnique();
                 p.Property(x => x.FechaCreacion).IsRequired();
 
-                p.HasOne(x => x.Domicilio)
+                p.HasMany(x => x.Domicilios)
                     .WithOne(x => x.Usuario)
-                    .HasForeignKey<Domicilio>(f => f.UsuarioID)
+                    .HasForeignKey(f => f.UsuarioID)
                     .OnDelete(DeleteBehavior.Cascade);
 
             });

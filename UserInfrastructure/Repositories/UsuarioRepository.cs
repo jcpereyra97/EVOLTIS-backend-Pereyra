@@ -39,7 +39,7 @@ namespace UserInfrastructure.Repositories
         public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> predicate)
         {
             return await _appDbContext.Usuarios
-                        .Include(p => p.Domicilio)
+                        .Include(p => p.Domicilios)
                         .Where(predicate)
                         .ToListAsync();
         }

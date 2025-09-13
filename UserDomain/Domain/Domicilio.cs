@@ -17,9 +17,9 @@ namespace UserDomain.Domain
         public DateTime FechaCreacion { get; private set; }
         public Usuario Usuario { get; private set; } = default!;
         public Domicilio() {}
-        public Domicilio(int usuarioID, string calle, string numero, string provincia, string ciudad)
+        public Domicilio(Usuario usuario, string calle, string numero, string provincia, string ciudad)
         {
-            UsuarioID = usuarioID;
+            Usuario = usuario;
             Calle = calle;
             Numero = numero;
             Provincia = provincia;
