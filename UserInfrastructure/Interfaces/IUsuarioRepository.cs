@@ -11,7 +11,7 @@ namespace UserInfrastructure.Interfaces
 {
     public interface IUsuarioRepository
     {
-        Task AgregarUsuarioAsync(Usuario usuario);
+        Task<int> AgregarUsuarioAsync(Usuario usuario);
         Task ActualizarUsuarioAsync(Usuario usuario);
         Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID);
         Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros, int page = 1, int pageSize = 20);

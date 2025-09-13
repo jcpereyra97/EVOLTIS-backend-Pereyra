@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,13 @@ namespace UserInfrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task AgregarUsuarioAsync(Usuario usuario)
+        public async Task<int> AgregarUsuarioAsync(Usuario usuario)
         {
-            await _appDbContext.AddAsync(usuario);
+
+            await _appDbContext.Set<Usuario>().AddAsync(usuario);
             await _appDbContext.SaveChangesAsync();
+            return usuario.ID;
+
         }
 
         public async Task ActualizarUsuarioAsync(Usuario usuario)
@@ -38,7 +42,7 @@ namespace UserInfrastructure.Repositories
                             .FirstOrDefaultAsync(p => p.ID == usuarioID);
         }
 
-        public async Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros,int page = 1, int pageSize = 20)
+        public async Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros, int page = 1, int pageSize = 20)
         {
 
             var query = _appDbContext.Usuarios
@@ -47,7 +51,7 @@ namespace UserInfrastructure.Repositories
             var total = await query.CountAsync();
 
             var items = await query
-                       .OrderBy(u => u.ID) 
+                       .OrderBy(u => u.ID)
                        .Skip((page - 1) * pageSize)
                        .Take(pageSize)
                        .Include(u => u.Domicilios.Where(d => d.Activo))

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserApplication.Pagination
+namespace UserApplication.Common.Pagination
 {
     public record PaginationResponse<T>(
         IReadOnlyList<T> Items,

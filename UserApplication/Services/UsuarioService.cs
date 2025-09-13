@@ -6,9 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using UserApplication.Common.Exceptions;
+using UserApplication.Common.Pagination;
 using UserApplication.DTOs;
 using UserApplication.Interfaces;
-using UserApplication.Pagination;
 using UserDomain.Domain;
 using UserInfrastructure.Interfaces;
 
@@ -23,17 +24,17 @@ namespace UserApplication.Services
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task AgregarUsuarioAsync(UsuarioDTO usuarioDTO)
+        public async Task<int> AgregarUsuarioAsync(UsuarioDTO usuarioDTO)
         {
-            var user = _mapper.Map<Usuario>(usuarioDTO);
-            await _repository.AgregarUsuarioAsync(user);
+            var usuario = _mapper.Map<Usuario>(usuarioDTO);
+            return await _repository.AgregarUsuarioAsync(usuario);
         }
 
         public async Task<ObtenerUsuarioDTO> ObtenerUsuarioPorIdAsync(int usuarioID)
         {
-            var user = await _repository.ObtenerUsuarioPorIdAsync(usuarioID);
-            return _mapper.Map<ObtenerUsuarioDTO>(user);
-
+            var usuario = await _repository.ObtenerUsuarioPorIdAsync(usuarioID);
+            if (usuario == null) throw new NotFoundException(nameof(Usuario), usuarioID);
+            return _mapper.Map<ObtenerUsuarioDTO>(usuario);
         }
 
         public async Task<PaginationResponse<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre, string? provincia, string? ciudad,
@@ -48,8 +49,6 @@ namespace UserApplication.Services
 
             var listaUsuarios = await _repository.ObtenerUsuariosPorFiltrosAsync(filtros, page, pageSize);
             var lstDtos = listaUsuarios.Items.Select(_mapper.Map<ObtenerUsuarioDTO>).ToList();
-
-
             return new PaginationResponse<ObtenerUsuarioDTO>(lstDtos, listaUsuarios.Page, listaUsuarios.PageSize, listaUsuarios.TotalCount);
         }
 
@@ -57,8 +56,8 @@ namespace UserApplication.Services
         {
             var usuario = await _repository.ObtenerUsuarioPorIdAsync(usuarioID);
 
-            if (usuario == null) throw new FileNotFoundException("No existe usuario");
-            if (!usuario.Activo) throw new FileNotFoundException($"Este usuario ya ha sido eliminado. Ultima modificacion: {usuario.FechaUltimaActualizacion}");
+            if (usuario == null) throw new NotFoundException(nameof(Usuario), usuarioID);
+            if (!usuario.Activo) throw new NotFoundException(nameof(Usuario), usuarioID, $"Este usuario ya ha sido eliminado. Ultima modificacion: {usuario.FechaUltimaActualizacion}"); ;
 
             usuario.EliminarUsuario();
             await _repository.ActualizarUsuarioAsync(usuario);
@@ -69,9 +68,10 @@ namespace UserApplication.Services
             usuarioDTO.SetID(usuarioID);
             var usuario = await _repository.ObtenerUsuarioPorIdAsync(usuarioDTO.ID);
             if (usuario == null)
-                throw new FileNotFoundException("No existe usuario");
+                throw new NotFoundException(nameof(Usuario),usuarioDTO.ID);
+
             if (!usuario.Activo)
-                throw new FileNotFoundException("Usuario Inactivo");
+                throw new NotFoundException(nameof(Usuario),usuarioDTO.ID,"Inactivo");
 
             if (!string.IsNullOrEmpty(usuarioDTO.Nombre)) usuario.Renombrar(usuarioDTO.Nombre);
             if (!string.IsNullOrEmpty(usuarioDTO.Email)) usuario.CambiarEmail(usuarioDTO.Email);
@@ -91,7 +91,7 @@ namespace UserApplication.Services
                     }
                     else
                     {
-                        throw new FileNotFoundException($"No existe Domicilio con ID{usuarioDTO.Domicilio.ID}");
+                        throw new NotFoundException(nameof(Domicilio), usuarioDTO.Domicilio.ID);
                     }
 
                 }
