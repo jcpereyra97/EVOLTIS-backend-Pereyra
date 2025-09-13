@@ -47,5 +47,11 @@ namespace UserApplication.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task ActualizarUsuario(ActualizarUsuarioDTO usuarioDTO)
+        {
+            var usuario = _mapper.Map<Usuario>(usuarioDTO);
+            await _repository.ActualizarUsuarioAsync(usuario);
+        }
     }
 }
