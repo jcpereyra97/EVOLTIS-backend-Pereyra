@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using UserApi.Mapper;
 using UserApplication.Interfaces;
 using UserApplication.Services;
 using UserInfrastructure.EF;
@@ -21,9 +23,11 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
 
-
-
-builder.Services.AddScoped<IRepository, UsuarioRepository>();
+builder.Services.AddAutoMapper(cfg =>
+        {
+            cfg.AddProfile<MappingProfile>();
+        });
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 var app = builder.Build();

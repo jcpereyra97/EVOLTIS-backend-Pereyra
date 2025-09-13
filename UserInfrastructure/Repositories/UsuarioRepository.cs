@@ -1,33 +1,47 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserDomain.Domain;
+using UserInfrastructure.EF;
 using UserInfrastructure.Interfaces;
 
 namespace UserInfrastructure.Repositories
 {
-    public class UsuarioRepository : IRepository
+    public class UsuarioRepository : IUsuarioRepository
     {
-        public Task AgregarUsuarioAsync(Usuario usuario)
+        private readonly AppDbContext _appDbContext;
+        public UsuarioRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
 
-        public Task ActualizarUsuarioAsync(Usuario usuario)
+        public async Task AgregarUsuarioAsync(Usuario usuario)
         {
-            throw new NotImplementedException();
+            await _appDbContext.AddAsync(usuario);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public Task<Usuario> ObtenerUsuarioPorIdAsync(int usuarioID)
+        public async Task ActualizarUsuarioAsync(Usuario usuario)
         {
-            throw new NotImplementedException();
+            _appDbContext.Update(usuario);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(string nombre, string ciudad, string provincia)
+        public async Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.FindAsync<Usuario>(usuarioID);
+        }
+
+        public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> predicate)
+        {
+            return await _appDbContext.Usuarios
+                        .Include(p => p.Domicilio)
+                        .Where(predicate)
+                        .ToListAsync();
         }
     }
 }

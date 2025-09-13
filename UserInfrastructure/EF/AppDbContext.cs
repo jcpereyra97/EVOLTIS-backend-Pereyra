@@ -23,6 +23,7 @@ namespace UserInfrastructure.EF
             {
                 p.ToTable("Usuarios");
                 p.HasKey(x => x.ID);
+                p.Property(x => x.ID).ValueGeneratedOnAdd(); 
                 p.Property(x => x.Nombre).IsRequired().HasMaxLength(100);
                 p.Property(x => x.Email).IsRequired().HasMaxLength(100);
                 p.HasIndex(x => x.Email).IsUnique();
@@ -38,7 +39,8 @@ namespace UserInfrastructure.EF
             modelBuilder.Entity<Domicilio>(p =>
             {
                 p.ToTable("Domicilio");
-                p.HasKey(x => x.ID);                
+                p.HasKey(x => x.ID);
+                p.Property(x => x.ID).ValueGeneratedOnAdd();
                 p.Property(x => x.Calle).IsRequired().HasMaxLength(150);
                 p.Property(x => x.Numero).IsRequired().HasMaxLength(20);
                 p.Property(x => x.Provincia).IsRequired().HasMaxLength(100);

@@ -1,18 +1,30 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserApplication.DTOs;
 using UserApplication.Interfaces;
+using UserDomain.Domain;
+using UserInfrastructure.Interfaces;
 
 namespace UserApplication.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        public Task<int> AgregarUsuarioAsync(UsuarioDTO usuarioDTO)
+        private readonly IUsuarioRepository _repository;
+        private readonly IMapper _mapper;
+        public UsuarioService(IUsuarioRepository repository,IMapper mapper)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _mapper = mapper;
+        }
+        public async Task AgregarUsuarioAsync(UsuarioDTO usuarioDTO)
+        {
+            var user = _mapper.Map<Usuario>(usuarioDTO);
+            await _repository.AgregarUsuarioAsync(user);
         }
 
         public Task<ObtenerUsuarioDTO> ObtenerUsuarioPorIdAsync(int usuarioID)
@@ -20,9 +32,15 @@ namespace UserApplication.Services
             throw new NotImplementedException();
         }
 
-        public Task<ObtenerUsuarioDTO> ObtenerUsuarioConFiltrosAsync(string? nombre, string? provincia, string? ciudad)
+        public async Task<IEnumerable<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre, string? provincia, string? ciudad)
         {
-            throw new NotImplementedException();
+           var a = await _repository.ObtenerUsuariosPorFiltrosAsync(x =>
+                            (string.IsNullOrEmpty(nombre) || x.Nombre.Contains(nombre)) &&
+                            (string.IsNullOrEmpty(provincia) || x.Domicilio.Provincia.Contains(provincia)) &&
+                            (string.IsNullOrEmpty(ciudad) || x.Domicilio.Ciudad.Contains(ciudad)));
+            var asd = a.Select(_mapper.Map<ObtenerUsuarioDTO>);
+
+            return asd;
         }
 
         public Task EliminarUsuarioAsync(int usuarioID)

@@ -11,7 +11,7 @@ namespace UserDomain.Domain
         public int ID { get; private set; }
         public string Nombre { get; private set; }
         public string Email { get; private set; }
-        public DateTime FechaCreacion { get; private set; }
+        public DateTime FechaCreacion { get; private set; } = DateTime.Now.AddDays(-1);
         public Domicilio Domicilio { get; private set; }
         public Usuario() {}
         public Usuario(string nombre, string email)
