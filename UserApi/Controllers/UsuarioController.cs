@@ -20,6 +20,7 @@ namespace UserApi.Controllers
         [HttpPost]
         public async Task<ActionResult> AgregarUsuario(UsuarioDTO usuario)
         {
+
             await _usuarioService.AgregarUsuarioAsync(usuario);
             return Ok();
         }

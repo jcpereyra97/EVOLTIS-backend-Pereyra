@@ -1,6 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using UserApi.Mapper;
+using UserApplication.DTOs;
 using UserApplication.Interfaces;
 using UserApplication.Services;
 using UserInfrastructure.EF;
@@ -27,8 +29,12 @@ builder.Services.AddAutoMapper(cfg =>
         {
             cfg.AddProfile<MappingProfile>();
         });
+
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 
 var app = builder.Build();
 
