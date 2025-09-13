@@ -63,7 +63,7 @@ namespace UserApplication.Services
             await _repository.ActualizarUsuarioAsync(usuario);
         }
 
-        public async Task ActualizarUsuarioAsync(int usuarioID,ActualizarUsuarioDTO usuarioDTO)
+        public async Task<ObtenerUsuarioDTO> ActualizarUsuarioAsync(int usuarioID,ActualizarUsuarioDTO usuarioDTO)
         {
             usuarioDTO.SetID(usuarioID);
             var usuario = await _repository.ObtenerUsuarioPorIdAsync(usuarioDTO.ID);
@@ -102,6 +102,7 @@ namespace UserApplication.Services
             }
 
             await _repository.ActualizarUsuarioAsync(usuario);
+            return _mapper.Map<ObtenerUsuarioDTO>(usuario);
         }
     }
 }

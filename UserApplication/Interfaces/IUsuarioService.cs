@@ -14,11 +14,7 @@ namespace UserApplication.Interfaces
         Task<ObtenerUsuarioDTO> ObtenerUsuarioPorIdAsync(int usuarioID);
         Task<PaginationResponse<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre, string? provincia, string? ciudad,int page = 1, int pageSize = 20);
         Task EliminarUsuarioAsync(int usuarioID);
-
-        Task ActualizarUsuarioAsync(int usuarioId,ActualizarUsuarioDTO usuarioDTO);
-        
-
-        
-
+        Task<ObtenerUsuarioDTO> ActualizarUsuarioAsync(int usuarioId,ActualizarUsuarioDTO usuarioDTO);
+                
     }
 }

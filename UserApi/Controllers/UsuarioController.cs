@@ -20,6 +20,7 @@ namespace UserApi.Controllers
 
 
         [HttpGet("{id}", Name = nameof(ObtenerUsuarioPorId))]
+        [ProducesResponseType(typeof(ObtenerUsuarioDTO), StatusCodes.Status200OK)]
         public async Task<ActionResult<ObtenerUsuarioDTO>> ObtenerUsuarioPorId(int id)
         {
             var user = await _usuarioService.ObtenerUsuarioPorIdAsync(id);
@@ -28,6 +29,7 @@ namespace UserApi.Controllers
 
 
         [HttpGet(Name = nameof(ObtenerUsuariosPorFiltros))]
+        [ProducesResponseType(typeof(PaginationResponse<ObtenerUsuarioDTO>), StatusCodes.Status200OK)]
         public async Task<ActionResult<PaginationResponse<ObtenerUsuarioDTO>>> ObtenerUsuariosPorFiltros([FromQuery] string? nombre,
                                                         [FromQuery] string? provincia, [FromQuery] string? ciudad, [FromQuery] int page = 1,
                                                         [FromQuery] int pageSize = 20)
@@ -37,11 +39,11 @@ namespace UserApi.Controllers
 
             var result = await _usuarioService.ObtenerUsuariosConFiltrosAsync(nombre, provincia, ciudad, page, pageSize);
 
-            return Ok(result);
+            return result.Items.Any() ? Ok(result) : NoContent();
 
         }
 
-        [HttpPost]
+        [HttpPost(Name = nameof(AgregarUsuario))]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public async Task<ActionResult<int>> AgregarUsuario(UsuarioDTO usuario)
         {
@@ -52,18 +54,19 @@ namespace UserApi.Controllers
        
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = nameof(EliminarUsuario))]
         public async Task<ActionResult> EliminarUsuario([FromRoute] int id)
         {
             await _usuarioService.EliminarUsuarioAsync(id);
-            return Ok();    
+            return NoContent();    
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> ActualizarUsuario([FromRoute] int id,[FromBody] ActualizarUsuarioDTO usuarioDTO)
+        [HttpPut("{id}", Name = nameof(ActualizarUsuario))]
+        [ProducesResponseType(typeof(ObtenerUsuarioDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ObtenerUsuarioDTO>> ActualizarUsuario([FromRoute] int id,[FromBody] ActualizarUsuarioDTO usuarioDTO)
         {
-            await _usuarioService.ActualizarUsuarioAsync(id,usuarioDTO);
-            return Ok();
+            var usuario = await _usuarioService.ActualizarUsuarioAsync(id,usuarioDTO);
+            return usuario != null ? Ok(usuario) : NotFound();
         }
     }
 }
