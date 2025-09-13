@@ -21,6 +21,8 @@ namespace UserApi.Mapper
 
                 });
 
+            CreateMap<DomicilioDTO, Domicilio>().ReverseMap();
+
         }
 
     }

@@ -13,7 +13,8 @@ namespace UserInfrastructure.Interfaces
         Task AgregarUsuarioAsync(Usuario usuario);
         Task ActualizarUsuarioAsync(Usuario usuario);
         Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID);
-        Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> predicate);
+        Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros);
+        Task EliminarUsuarioPorId(int usuarioID);
 
     }
 }

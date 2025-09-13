@@ -11,7 +11,7 @@ namespace UserApplication.DTOs
         public int ID { get; private set; }
         public string? Nombre{ get; set; }
         public string? Email { get; set; }
-        public ActualizarDomicilioDTO Domicilio { get; set; }
+        public ActualizarDomicilioDTO? Domicilio { get; set; }
         public void SetID(int id)
         {
             ID = id;

@@ -33,15 +33,27 @@ namespace UserInfrastructure.Repositories
 
         public async Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID)
         {
-            return await _appDbContext.FindAsync<Usuario>(usuarioID);
+            return await _appDbContext.Usuarios.Include(p => p.Domicilios).FirstOrDefaultAsync(p => p.ID == usuarioID);
         }
 
-        public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> predicate)
+        public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros)
         {
             return await _appDbContext.Usuarios
                         .Include(p => p.Domicilios)
-                        .Where(predicate)
+                        .Where(filtros)
                         .ToListAsync();
+        }
+
+        public async Task EliminarUsuarioPorId(int usuarioID)
+        {
+            var usuario = await _appDbContext.FindAsync<Usuario>(usuarioID);
+            if (usuario == null)
+                throw new Exception();
+
+            _appDbContext.Remove<Usuario>(usuario);
+            await _appDbContext.SaveChangesAsync();
+
+
         }
     }
 }

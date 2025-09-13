@@ -14,7 +14,7 @@ namespace UserApplication.Interfaces
         Task<IEnumerable<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre,string? provincia,string? ciudad);
         Task EliminarUsuarioAsync(int usuarioID);
 
-        Task ActualizarUsuario(ActualizarUsuarioDTO usuarioDTO);
+        Task ActualizarUsuario(int usuarioId,ActualizarUsuarioDTO usuarioDTO);
         
 
         

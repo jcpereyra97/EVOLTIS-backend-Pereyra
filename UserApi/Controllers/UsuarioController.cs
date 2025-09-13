@@ -33,17 +33,17 @@ namespace UserApi.Controllers
                 
         }
 
-        [HttpDelete("id")]
-        public async Task<ActionResult> EliminarUsuario([FromQuery] int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> EliminarUsuario([FromRoute] int id)
         {
             await _usuarioService.EliminarUsuarioAsync(id);
             return Ok();    
         }
 
-        [HttpPut("id")]
-        public async Task<ActionResult> ActualizarUsuario([FromBody] ActualizarUsuarioDTO usuarioDTO)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> ActualizarUsuario([FromRoute] int id,[FromBody] ActualizarUsuarioDTO usuarioDTO)
         {
-            await _usuarioService.ActualizarUsuario(usuarioDTO);
+            await _usuarioService.ActualizarUsuario(id,usuarioDTO);
             return Ok();
         }
     }

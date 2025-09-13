@@ -28,6 +28,8 @@ namespace UserInfrastructure.EF
                 p.Property(x => x.Email).IsRequired().HasMaxLength(100);
                 p.HasIndex(x => x.Email).IsUnique();
                 p.Property(x => x.FechaCreacion).IsRequired();
+                p.Property(x => x.Activo).IsRequired();
+                p.Property(x => x.FechaUltimaActualizacion);
 
                 p.HasMany(x => x.Domicilios)
                     .WithOne(x => x.Usuario)
@@ -47,6 +49,8 @@ namespace UserInfrastructure.EF
                 p.Property(x => x.Ciudad).IsRequired().HasMaxLength(100);
                 p.Property(x => x.FechaCreacion).IsRequired();
                 p.HasIndex(x => x.UsuarioID);
+                p.Property(x => x.Activo).IsRequired();
+                p.Property(x => x.FechaUltimaActualizacion);
 
             });
         }
