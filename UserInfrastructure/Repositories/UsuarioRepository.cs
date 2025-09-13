@@ -38,12 +38,23 @@ namespace UserInfrastructure.Repositories
                             .FirstOrDefaultAsync(p => p.ID == usuarioID);
         }
 
-        public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros)
+        public async Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros,int page = 1, int pageSize = 20)
         {
-            return await _appDbContext.Usuarios
-                        .Include(p => p.Domicilios.Where(p => p.Activo))
-                        .Where(filtros)
-                        .ToListAsync();
+
+            var query = _appDbContext.Usuarios
+                        .Where(filtros);
+
+            var total = await query.CountAsync();
+
+            var items = await query
+                       .OrderBy(u => u.ID) 
+                       .Skip((page - 1) * pageSize)
+                       .Take(pageSize)
+                       .Include(u => u.Domicilios.Where(d => d.Activo))
+                       .AsNoTracking()
+                       .ToListAsync();
+
+            return new PaginationResult<Usuario>(items, page, pageSize, total);
         }
 
         public async Task EliminarUsuarioPorId(int usuarioID)

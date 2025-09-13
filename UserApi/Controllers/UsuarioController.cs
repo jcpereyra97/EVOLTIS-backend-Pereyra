@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.VisualBasic;
 using UserApplication.DTOs;
 using UserApplication.Interfaces;
+using UserApplication.Pagination;
 
 namespace UserApi.Controllers
 {
@@ -26,9 +27,14 @@ namespace UserApi.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<ObtenerUsuarioDTO>>> ObtenerUsuariosPorFiltros([FromQuery] string? nombre, [FromQuery] string? provincia, [FromQuery] string? ciudad)
+        public async Task<ActionResult<PaginationResponse<ObtenerUsuarioDTO>>> ObtenerUsuariosPorFiltros([FromQuery] string? nombre, 
+                                                        [FromQuery] string? provincia, [FromQuery] string? ciudad, [FromQuery] int page = 1,
+                                                        [FromQuery] int pageSize = 20)
         {
-            var result = await _usuarioService.ObtenerUsuariosConFiltrosAsync(nombre,provincia,ciudad);
+            if (page <= 0) page = 1;
+            if (pageSize <= 0) pageSize = 20;
+
+            var result = await _usuarioService.ObtenerUsuariosConFiltrosAsync(nombre,provincia,ciudad,page,pageSize);
 
             return Ok(result);
                 

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserApplication.DTOs;
 using UserApplication.Interfaces;
+using UserApplication.Pagination;
 using UserDomain.Domain;
 using UserInfrastructure.Interfaces;
 
@@ -34,15 +36,21 @@ namespace UserApplication.Services
 
         }
 
-        public async Task<IEnumerable<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre, string? provincia, string? ciudad)
+        public async Task<PaginationResponse<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre, string? provincia, string? ciudad,
+                                                                                                int page = 1, int pageSize = 20)
         {
-            var listaUsuarios = await _repository.ObtenerUsuariosPorFiltrosAsync(x =>
+            Expression<Func<Usuario,bool>> filtros = x =>
                                      (x.Activo) &&
                                      (string.IsNullOrEmpty(nombre) || x.Nombre.Contains(nombre)) &&
                                      (string.IsNullOrEmpty(provincia) || x.Domicilios.Any(p => p.Provincia.Contains(provincia))) &&
-                                     (string.IsNullOrEmpty(ciudad) || x.Domicilios.Any(p => p.Ciudad.Contains(ciudad))));
+                                     (string.IsNullOrEmpty(ciudad) || x.Domicilios.Any(p => p.Ciudad.Contains(ciudad)));
 
-            return listaUsuarios.Select(_mapper.Map<ObtenerUsuarioDTO>);
+
+            var listaUsuarios = await _repository.ObtenerUsuariosPorFiltrosAsync(filtros, page, pageSize);
+            var lstDtos = listaUsuarios.Items.Select(_mapper.Map<ObtenerUsuarioDTO>).ToList();
+
+
+            return new PaginationResponse<ObtenerUsuarioDTO>(lstDtos, listaUsuarios.Page, listaUsuarios.PageSize, listaUsuarios.TotalCount);
         }
 
         public async Task EliminarUsuarioAsync(int usuarioID)

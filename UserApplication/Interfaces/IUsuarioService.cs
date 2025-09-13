@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserApplication.DTOs;
+using UserApplication.Pagination;
 
 namespace UserApplication.Interfaces
 {
@@ -11,7 +12,7 @@ namespace UserApplication.Interfaces
     {
         Task AgregarUsuarioAsync(UsuarioDTO usuarioDTO);
         Task<ObtenerUsuarioDTO> ObtenerUsuarioPorIdAsync(int usuarioID);
-        Task<IEnumerable<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre,string? provincia,string? ciudad);
+        Task<PaginationResponse<ObtenerUsuarioDTO>> ObtenerUsuariosConFiltrosAsync(string? nombre, string? provincia, string? ciudad,int page = 1, int pageSize = 20);
         Task EliminarUsuarioAsync(int usuarioID);
 
         Task ActualizarUsuarioAsync(int usuarioId,ActualizarUsuarioDTO usuarioDTO);
