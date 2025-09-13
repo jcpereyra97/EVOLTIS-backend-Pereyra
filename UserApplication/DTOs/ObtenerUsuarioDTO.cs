@@ -12,6 +12,8 @@ namespace UserApplication.DTOs
         public string Nombre { get; set; }
         public string Email { get; set; }
         public DateTime FechaCreacion { get; set; }
-       
+        public IEnumerable<ObtenerDomicilioDTO> Domicilios { get; set; }
+        
+
     }
 }

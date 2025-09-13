@@ -43,7 +43,7 @@ namespace UserApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> ActualizarUsuario([FromRoute] int id,[FromBody] ActualizarUsuarioDTO usuarioDTO)
         {
-            await _usuarioService.ActualizarUsuario(id,usuarioDTO);
+            await _usuarioService.ActualizarUsuarioAsync(id,usuarioDTO);
             return Ok();
         }
     }

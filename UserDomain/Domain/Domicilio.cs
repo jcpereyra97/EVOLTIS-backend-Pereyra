@@ -17,7 +17,7 @@ namespace UserDomain.Domain
         public string Ciudad { get; private set; }
         public DateTime FechaCreacion { get; private set; }
         public DateTime FechaUltimaActualizacion { get; private set; }
-        public bool Activo { get; private set; }
+        public bool Activo { get; private set; } = true;
         public Usuario Usuario { get; private set; } = default!;
         public Domicilio() {}
         public Domicilio(Usuario usuario, string calle, string numero, string provincia, string ciudad)

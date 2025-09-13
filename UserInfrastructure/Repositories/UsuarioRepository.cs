@@ -33,13 +33,15 @@ namespace UserInfrastructure.Repositories
 
         public async Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID)
         {
-            return await _appDbContext.Usuarios.Include(p => p.Domicilios).FirstOrDefaultAsync(p => p.ID == usuarioID);
+            return await _appDbContext.Usuarios
+                            .Include(p => p.Domicilios)
+                            .FirstOrDefaultAsync(p => p.ID == usuarioID);
         }
 
         public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros)
         {
             return await _appDbContext.Usuarios
-                        .Include(p => p.Domicilios)
+                        .Include(p => p.Domicilios.Where(p => p.Activo))
                         .Where(filtros)
                         .ToListAsync();
         }
