@@ -34,7 +34,7 @@ namespace UserInfrastructure.Repositories
         public async Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID)
         {
             return await _appDbContext.Usuarios
-                            .Include(p => p.Domicilios)
+                            .Include(p => p.Domicilios.Where(p => p.Activo))
                             .FirstOrDefaultAsync(p => p.ID == usuarioID);
         }
 

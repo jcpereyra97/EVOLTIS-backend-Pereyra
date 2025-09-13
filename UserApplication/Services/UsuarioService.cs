@@ -50,6 +50,7 @@ namespace UserApplication.Services
             var usuario = await _repository.ObtenerUsuarioPorIdAsync(usuarioID);
 
             if (usuario == null) throw new FileNotFoundException("No existe usuario");
+            if (!usuario.Activo) throw new FileNotFoundException($"Este usuario ya ha sido eliminado. Ultima modificacion: {usuario.FechaUltimaActualizacion}");
 
             usuario.EliminarUsuario();
             await _repository.ActualizarUsuarioAsync(usuario);
@@ -61,6 +62,8 @@ namespace UserApplication.Services
             var usuario = await _repository.ObtenerUsuarioPorIdAsync(usuarioDTO.ID);
             if (usuario == null)
                 throw new FileNotFoundException("No existe usuario");
+            if (!usuario.Activo)
+                throw new FileNotFoundException("Usuario Inactivo");
 
             if (!string.IsNullOrEmpty(usuarioDTO.Nombre)) usuario.Renombrar(usuarioDTO.Nombre);
             if (!string.IsNullOrEmpty(usuarioDTO.Email)) usuario.CambiarEmail(usuarioDTO.Email);
