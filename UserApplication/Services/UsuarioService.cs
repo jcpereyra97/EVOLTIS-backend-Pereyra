@@ -79,9 +79,9 @@ namespace UserApplication.Services
 
             if (usuarioDTO.Domicilio != null)
             {
-                if (usuarioDTO.Domicilio.ID != null)
+                if (usuarioDTO.Domicilio.Id != null)
                 {
-                    var domicilioUsuario = usuario.BuscarDomicilioPorID((int)usuarioDTO.Domicilio.ID);
+                    var domicilioUsuario = usuario.BuscarDomicilioPorID((int)usuarioDTO.Domicilio.Id);
 
                     if(domicilioUsuario != null && !usuario.ExisteDomicilio(usuarioDTO.Domicilio.Calle, usuarioDTO.Domicilio.Numero, usuarioDTO.Domicilio.Provincia, usuarioDTO.Domicilio.Ciudad))
                     {
@@ -92,7 +92,7 @@ namespace UserApplication.Services
                     }
                     else
                     {
-                        throw new NotFoundException(nameof(Domicilio), usuarioDTO.Domicilio.ID);
+                        throw new NotFoundException(nameof(Domicilio), usuarioDTO.Domicilio.Id);
                     }
 
                 }

@@ -1,9 +1,13 @@
 ﻿// Setup/ApiTestBase.cs
+using FluentAssertions;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using UserApi.IntegrationTests.Setup;
+using UserApplication.Common.Pagination;
+using UserApplication.DTOs;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -62,5 +66,17 @@ public abstract class ApiTestBase : IDisposable
     {
         _client.Dispose();
         _factory.Dispose();
+    }
+
+    public async Task<IReadOnlyList<ObtenerUsuarioDTO>> ObtenerUsuarios()
+    {
+        //Consulto un usuario para obtener su ID
+        var usuarioRq = await _client.GetAsync($"/api/usuarios?page=1&pageSize=20");
+        var usuarioRs = await usuarioRq.Content.ReadFromJsonAsync<PaginationResponse<ObtenerUsuarioDTO>>();
+        usuarioRs.Should().NotBeNull();
+        usuarioRs.Items.Should().NotBeEmpty();
+
+        return usuarioRs.Items;
+
     }
 }

@@ -1,0 +1,11 @@
+{
+  "nombre": "Usuario Completo Actualizado",
+  "email": "usuariocomplero@actualizado.com",
+  "domicilio": {
+    "id": 0,
+    "calle": "calle actualizada",
+    "numero": "numero actualizada",
+    "provincia": "provincia actualizada",
+    "ciudad": "ciudad actualizada"
+  }
+}

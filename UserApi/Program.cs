@@ -119,6 +119,7 @@ app.UseExceptionHandler(errorApp =>
                     }
                 }),
 
+
             FileNotFoundException
             _ => (
                 StatusCodes.Status500InternalServerError,

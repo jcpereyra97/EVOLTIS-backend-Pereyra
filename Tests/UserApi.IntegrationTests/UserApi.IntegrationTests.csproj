@@ -41,6 +41,9 @@
     <None Update="Payloads\crear_usuario_email_existente.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Payloads\actualizar_usuario_ok .json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Seed\seed_usuarios.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

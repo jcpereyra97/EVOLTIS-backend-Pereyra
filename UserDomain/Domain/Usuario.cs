@@ -36,10 +36,10 @@ namespace UserDomain.Domain
         public void AgregarDomicilio(string? calle, string? numero, string? provincia, string? ciudad)
         {
             if (!ValidateNullString([calle, numero, provincia, ciudad]))
-                throw new InvalidOperationException("Datos nulos para domicilio");
+                throw new Exception("Datos nulos para domicilio");
 
             if (ExisteDomicilio(calle,numero,provincia,ciudad))
-                throw new InvalidOperationException("Ya existe Domicilio para este Usuario");
+                throw new Exception("Ya existe Domicilio para este Usuario");
             
             _domicilios.Add(new Domicilio(this, calle, numero, provincia, ciudad));
             Actualizar();

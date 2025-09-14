@@ -22,7 +22,6 @@ namespace UserApi.IntegrationTests.Setup
                 .WithUsername("root")
                 .WithPassword("root")
                 .WithPortBinding(3307, 3306)
-                .WithReuse(true)
                 .Build();
 
             await Container.StartAsync();

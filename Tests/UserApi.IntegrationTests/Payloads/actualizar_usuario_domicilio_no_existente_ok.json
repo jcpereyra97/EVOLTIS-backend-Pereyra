@@ -1,0 +1,8 @@
+{
+  "domicilio": {
+    "calle": "nueva calle",
+    "numero": "nuevo numero",
+    "provincia": "nueva provincia",
+    "ciudad": "nueva ciudad"
+  }
+}

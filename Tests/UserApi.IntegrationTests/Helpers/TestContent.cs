@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Org.BouncyCastle.Bcpg.OpenPgp;
+using System.Text;
 using System.Text.Json;
 
 namespace UserApi.IntegrationTests.Helpers;
@@ -24,6 +25,12 @@ public static class TestContent
         return new StringContent(json, Encoding.UTF8, "application/json");
     }
 
-    public static StringContent FromObject<T>(T body)
-        => new StringContent(JsonSerializer.Serialize(body, _jsonOpts), Encoding.UTF8, "application/json");
+    public static string ReadFile(string path)
+    {
+        var full = PayloadPath(path);
+        if (!File.Exists(full))
+            throw new FileNotFoundException($"No existe el payload: {full}");
+
+        return File.ReadAllText(full, Encoding.UTF8);
+    }
 }

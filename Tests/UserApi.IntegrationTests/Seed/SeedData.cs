@@ -8,7 +8,6 @@ public static class SeedData
 {
     public static void Run(AppDbContext db, string? baseDir = null)
     {
-        if (db.Usuarios.Any()) return;
 
         var root = baseDir ?? AppContext.BaseDirectory;
         var path = Path.Combine(root, "Seed", "seed_usuarios.json");

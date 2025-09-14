@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http.Json;
+using System.Net.Mime;
 using UserApi.IntegrationTests.Helpers;
 using UserApi.IntegrationTests.Setup;
 using Xunit.Abstractions;
@@ -23,7 +24,12 @@ namespace UserApi.IntegrationTests.Endpoints
         [Fact]
         public async Task Agregar_Usuario_Exito()
         {
-            var resp = await _client.PostAsync("/api/usuarios", TestContent.CreateContent("crear_usuario_ok.json"));
+            var content = TestContent.CreateContent("crear_usuario_ok.json");
+            var resp = await _client.PostAsync("/api/usuarios", content);
+
+            OutputResponse(content, "Resquest");
+            OutputLine();
+
             //Imprimo Id generado
             OutputResponse(await resp.Content.ReadAsStringAsync());
             resp.EnsureSuccessStatusCode();
