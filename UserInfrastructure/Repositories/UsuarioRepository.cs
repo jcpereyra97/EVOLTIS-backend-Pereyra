@@ -39,7 +39,7 @@ namespace UserInfrastructure.Repositories
         {
             return await _appDbContext.Usuarios
                             .Include(p => p.Domicilios.Where(p => p.Activo))
-                            .FirstOrDefaultAsync(p => p.ID == usuarioID);
+                            .FirstOrDefaultAsync(p => p.Activo && p.ID == usuarioID );
         }
 
         public async Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros, int page = 1, int pageSize = 20)
