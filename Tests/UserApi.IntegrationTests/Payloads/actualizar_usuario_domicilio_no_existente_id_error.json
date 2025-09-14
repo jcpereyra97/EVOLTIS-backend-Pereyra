@@ -1,0 +1,9 @@
+{
+  "domicilio": {
+    "id": 99999,
+    "calle": "calle existente ",
+    "numero": "numero existente",
+    "provincia": "provincia existente",
+    "ciudad": "ciudad actualizada"
+  }
+}

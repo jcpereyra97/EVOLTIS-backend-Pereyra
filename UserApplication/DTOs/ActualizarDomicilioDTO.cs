@@ -9,7 +9,7 @@ namespace UserApplication.DTOs
 {
     public class ActualizarDomicilioDTO
     {
-        public int? ID { get;  set ; }
+        public int? Id { get;  set ; }
         public string? Calle { get; set; }
         public string? Numero { get; set; }
         public string? Provincia { get; set; }
@@ -22,9 +22,9 @@ namespace UserApplication.DTOs
     {
         public ActualizarDomicilioDTOValidator()
         {
-            RuleFor(p => p.ID).GreaterThan(0).When(p => p.ID.HasValue).WithMessage("El ID debe ser mayor a 0");
+            RuleFor(p => p.Id).GreaterThan(0).When(p => p.Id.HasValue).WithMessage("El ID debe ser mayor a 0");
 
-            When(p => p.ID.HasValue, () =>
+            When(p => p.Id.HasValue, () =>
             {
                 RuleFor(p => p.Calle).NotEmpty().WithMessage("Ciudad no puede estar vacio cuando se envia ID")
                     .MinimumLength(2).MaximumLength(50).WithMessage("Debe tener entre 2-50 caracteres");

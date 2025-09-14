@@ -8,7 +8,7 @@ using UserApplication.Interfaces;
 namespace UserApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/usuarios")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
@@ -19,6 +19,21 @@ namespace UserApi.Controllers
         }
 
 
+        [HttpGet(Name = nameof(ObtenerUsuariosPorFiltros))]
+        [ProducesResponseType(typeof(PaginationResponse<ObtenerUsuarioDTO>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<PaginationResponse<ObtenerUsuarioDTO>>> ObtenerUsuariosPorFiltros([FromQuery] string? nombre,
+                                                      [FromQuery] string? provincia, [FromQuery] string? ciudad, [FromQuery] int page = 1,
+                                                      [FromQuery] int pageSize = 20)
+        {
+            if (page <= 0) page = 1;
+            if (pageSize <= 0) pageSize = 20;
+
+            var result = await _usuarioService.ObtenerUsuariosConFiltrosAsync(nombre, provincia, ciudad, page, pageSize);
+
+            return (result != null && result.Items.Any()) ? Ok(result) : NoContent();
+
+        }
+
         [HttpGet("{id}", Name = nameof(ObtenerUsuarioPorId))]
         [ProducesResponseType(typeof(ObtenerUsuarioDTO), StatusCodes.Status200OK)]
         public async Task<ActionResult<ObtenerUsuarioDTO>> ObtenerUsuarioPorId(int id)
@@ -28,20 +43,7 @@ namespace UserApi.Controllers
         }
 
 
-        [HttpGet(Name = nameof(ObtenerUsuariosPorFiltros))]
-        [ProducesResponseType(typeof(PaginationResponse<ObtenerUsuarioDTO>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<PaginationResponse<ObtenerUsuarioDTO>>> ObtenerUsuariosPorFiltros([FromQuery] string? nombre,
-                                                        [FromQuery] string? provincia, [FromQuery] string? ciudad, [FromQuery] int page = 1,
-                                                        [FromQuery] int pageSize = 20)
-        {
-            if (page <= 0) page = 1;
-            if (pageSize <= 0) pageSize = 20;
-
-            var result = await _usuarioService.ObtenerUsuariosConFiltrosAsync(nombre, provincia, ciudad, page, pageSize);
-
-            return result.Items.Any() ? Ok(result) : NoContent();
-
-        }
+      
 
         [HttpPost(Name = nameof(AgregarUsuario))]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]

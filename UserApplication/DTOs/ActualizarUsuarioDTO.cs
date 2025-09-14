@@ -33,6 +33,10 @@ namespace UserApplication.DTOs
                 .Cascade(CascadeMode.Stop)
                 .EmailAddress().Matches(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")
                 .WithMessage("Direccion de correo electronico invalida");
+
+            RuleFor(p => p.Domicilio)
+            .SetValidator(new ActualizarDomicilioDTOValidator()!)
+            .When(p => p.Domicilio is not null);
         }
     }
 }
