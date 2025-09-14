@@ -22,11 +22,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var conn = builder.Configuration.GetConnectionString("MySql");
+var cs = builder.Configuration.GetConnectionString("Default");
+// Nota: ConnectionStrings__Default de ENV pisa appsettings (ver abajo)
+
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 36)); // MySQL 8.x
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
-        opt.UseMySql(conn, ServerVersion.AutoDetect(conn))
-        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+    opt.UseMySql(cs, serverVersion, o =>
+    {
+        o.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorNumbersToAdd: null);
+    }));
 
 
 builder.Services.AddAutoMapper(cfg =>
@@ -48,6 +56,12 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 app.UseExceptionHandler(errorApp =>
 {
