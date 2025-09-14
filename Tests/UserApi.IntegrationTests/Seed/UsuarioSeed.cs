@@ -10,7 +10,7 @@ namespace UserApi.IntegrationTests.Seed
     {
         public string Nombre { get; set; } = default!;
         public string Email { get; set; } = default!;
-        public DomicilioSeed? Domicilio { get; set; }
+        public IEnumerable<DomicilioSeed>? Domicilio { get; set; }
     }
     public  class DomicilioSeed
     {

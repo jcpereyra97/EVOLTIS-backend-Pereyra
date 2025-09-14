@@ -101,17 +101,16 @@ app.UseExceptionHandler(errorApp =>
 
         (int status, ProblemDetails problem) = ex switch
         {
-            // EF suele envolver la excepción del proveedor
+
             DbUpdateException { InnerException: MySqlException mysql } => AsDbProblem(mysql),
 
-            // MySqlException lanzada “cruda”
             MySqlException mysql => AsDbProblem(mysql),
 
-            NotFoundException nf => (StatusCodes.Status404NotFound,
+            NotFoundException nf => (StatusCodes.Status204NoContent,
                 new ProblemDetails
                 {
                     Title = "Recurso no encontrado",
-                    Status = StatusCodes.Status404NotFound,
+                    Status = StatusCodes.Status204NoContent,
                     Detail = nf.Message,
                     Extensions =
                     {

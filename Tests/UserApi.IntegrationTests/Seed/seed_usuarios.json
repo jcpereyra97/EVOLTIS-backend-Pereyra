@@ -1,22 +1,74 @@
 [
   {
-    "nombre": "Juan",
-    "email": "juan@test.com",
-    "domicilio": {
-      "calle": "San Martin",
-      "numero": "1234",
-      "provincia": "Córdoba",
-      "ciudad": "Córdoba"
-    }
+    "nombre": "Juan Cruz",
+    "email": "juancruz@test.com",
+    "domicilio": [
+      {
+        "calle": "San Martin",
+        "numero": "1234",
+        "provincia": "Córdoba",
+        "ciudad": "Córdoba"
+      }
+    ]
+  },
+  {
+    "nombre": "Juan Pablo",
+    "email": "juanpablo@test.com",
+    "domicilio": [
+      {
+        "calle": "Gral Paz",
+        "numero": "1234",
+        "provincia": "Córdoba",
+        "ciudad": "Córdoba"
+      }
+    ]
+  },
+  {
+    "nombre": "Pablo",
+    "email": "pablo@test.com",
+    "domicilio": [
+      {
+        "calle": "Bv San Juan",
+        "numero": "1234",
+        "provincia": "Córdoba",
+        "ciudad": "Córdoba"
+      }
+    ]
+  },
+  {
+    "nombre": "Rocio",
+    "email": "rocio@test.com",
+    "domicilio": [
+      {
+        "calle": "Ramon Carcano",
+        "numero": "1234",
+        "provincia": "Córdoba",
+        "ciudad": "Córdoba"
+      }
+    ]
+  },
+  {
+    "nombre": "Lucas",
+    "email": "lucas@test.com",
+    "domicilio": [
+      {
+        "calle": "Monseñor",
+        "numero": "1234",
+        "provincia": "Córdoba",
+        "ciudad": "Córdoba"
+      }
+    ]
   },
   {
     "nombre": "Ana",
     "email": "ana@test.com",
-    "domicilio": {
-      "calle": "Nuñez",
-      "numero": "4567",
-      "provincia": "Buenos Aires",
-      "ciudad": "CABA"
-    }
+    "domicilio": [
+      {
+        "calle": "Nuñez",
+        "numero": "4567",
+        "provincia": "Buenos Aires",
+        "ciudad": "CABA"
+      }
+    ]
   }
 ]

@@ -28,11 +28,6 @@ public class CustomWebApplicationFactory
             services.AddDbContext<AppDbContext>(opt =>
                 opt.UseMySql(_conn, ServerVersion.AutoDetect(_conn)));
 
-            // Opcional: reemplazar Auth por FakeAuth
-            // services.AddAuthentication("Test")
-            //   .AddScheme<AuthenticationSchemeOptions, FakeAuthHandler>("Test", _ => {});
-
-            // Build y migrar + seed
             var sp = services.BuildServiceProvider();
             using var scope = sp.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();

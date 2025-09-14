@@ -28,6 +28,7 @@ namespace UserApplication.Services
         {
             var usuario = _mapper.Map<Usuario>(usuarioDTO);
             return await _repository.AgregarUsuarioAsync(usuario);
+
         }
 
         public async Task<ObtenerUsuarioDTO> ObtenerUsuarioPorIdAsync(int usuarioID)

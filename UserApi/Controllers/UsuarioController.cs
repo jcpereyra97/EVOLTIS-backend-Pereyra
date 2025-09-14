@@ -30,7 +30,7 @@ namespace UserApi.Controllers
 
             var result = await _usuarioService.ObtenerUsuariosConFiltrosAsync(nombre, provincia, ciudad, page, pageSize);
 
-            return result.Items.Any() ? Ok(result) : NoContent();
+            return (result != null && result.Items.Any()) ? Ok(result) : NoContent();
 
         }
 

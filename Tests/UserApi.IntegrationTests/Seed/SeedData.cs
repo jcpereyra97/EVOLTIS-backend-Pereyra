@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Linq;
+using System.Text.Json;
 using UserApi.IntegrationTests.Seed;
 using UserDomain.Domain;
 using UserInfrastructure.EF;
@@ -9,7 +10,7 @@ public static class SeedData
     {
         if (db.Usuarios.Any()) return;
 
-        var root = baseDir ?? AppContext.BaseDirectory; 
+        var root = baseDir ?? AppContext.BaseDirectory;
         var path = Path.Combine(root, "Seed", "seed_usuarios.json");
         if (!File.Exists(path)) throw new FileNotFoundException($"Seed JSON no encontrado: {path}");
 
@@ -21,12 +22,14 @@ public static class SeedData
             if (db.Usuarios.Any(x => x.Email == usuarioSeed.Email)) continue;
 
             var usuario = new Usuario(usuarioSeed.Nombre, usuarioSeed.Email);
-            if (usuarioSeed.Domicilio is not null)
+            if (usuarioSeed.Domicilio is not null && usuarioSeed.Domicilio.Any())
             {
-                usuario.AgregarDomicilio(
-                    usuarioSeed.Domicilio.Calle, usuarioSeed.Domicilio.Numero,
-                    usuarioSeed.Domicilio.Provincia, usuarioSeed.Domicilio.Ciudad 
-                );
+                foreach (var dom in usuarioSeed.Domicilio)
+                {
+                    usuario.AgregarDomicilio(
+                        dom.Calle, dom.Numero,
+                        dom.Provincia, dom.Ciudad);
+                }                
             }
             db.Usuarios.Add(usuario);
         }

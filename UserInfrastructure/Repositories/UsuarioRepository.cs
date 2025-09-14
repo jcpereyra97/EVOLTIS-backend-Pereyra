@@ -45,8 +45,7 @@ namespace UserInfrastructure.Repositories
         public async Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros, int page = 1, int pageSize = 20)
         {
 
-            var query = _appDbContext.Usuarios
-                        .Where(filtros);
+            var query = _appDbContext.Usuarios.Where(filtros);
 
             var total = await query.CountAsync();
 
