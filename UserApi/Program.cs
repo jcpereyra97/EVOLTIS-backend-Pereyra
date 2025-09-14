@@ -23,7 +23,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var cs = builder.Configuration.GetConnectionString("Default");
-// Nota: ConnectionStrings__Default de ENV pisa appsettings (ver abajo)
 
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 36)); // MySQL 8.x
 
@@ -57,11 +56,24 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-using (var scope = app.Services.CreateScope())
+var runMigrations = builder.Configuration.GetValue<bool>("RunMigrationsAtStartup");
+
+if (runMigrations)
 {
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        db.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "Fallo ejecutando migrations al inicio.");
+        // Opcional: volver a lanzar en Prod; en Dev podés dejar continuar para no bloquear Swagger
+        if (!app.Environment.IsDevelopment()) throw;
+    }
 }
+
 
 app.UseExceptionHandler(errorApp =>
 {
@@ -135,3 +147,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+public partial class Program { }

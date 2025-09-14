@@ -8,7 +8,7 @@ using UserApplication.Interfaces;
 namespace UserApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/usuarios")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
@@ -19,20 +19,11 @@ namespace UserApi.Controllers
         }
 
 
-        [HttpGet("{id}", Name = nameof(ObtenerUsuarioPorId))]
-        [ProducesResponseType(typeof(ObtenerUsuarioDTO), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ObtenerUsuarioDTO>> ObtenerUsuarioPorId(int id)
-        {
-            var user = await _usuarioService.ObtenerUsuarioPorIdAsync(id);
-            return user is null ? NotFound(id) : Ok(user);
-        }
-
-
         [HttpGet(Name = nameof(ObtenerUsuariosPorFiltros))]
         [ProducesResponseType(typeof(PaginationResponse<ObtenerUsuarioDTO>), StatusCodes.Status200OK)]
         public async Task<ActionResult<PaginationResponse<ObtenerUsuarioDTO>>> ObtenerUsuariosPorFiltros([FromQuery] string? nombre,
-                                                        [FromQuery] string? provincia, [FromQuery] string? ciudad, [FromQuery] int page = 1,
-                                                        [FromQuery] int pageSize = 20)
+                                                      [FromQuery] string? provincia, [FromQuery] string? ciudad, [FromQuery] int page = 1,
+                                                      [FromQuery] int pageSize = 20)
         {
             if (page <= 0) page = 1;
             if (pageSize <= 0) pageSize = 20;
@@ -42,6 +33,17 @@ namespace UserApi.Controllers
             return result.Items.Any() ? Ok(result) : NoContent();
 
         }
+
+        [HttpGet("{id}", Name = nameof(ObtenerUsuarioPorId))]
+        [ProducesResponseType(typeof(ObtenerUsuarioDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ObtenerUsuarioDTO>> ObtenerUsuarioPorId(int id)
+        {
+            var user = await _usuarioService.ObtenerUsuarioPorIdAsync(id);
+            return user is null ? NotFound(id) : Ok(user);
+        }
+
+
+      
 
         [HttpPost(Name = nameof(AgregarUsuario))]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]

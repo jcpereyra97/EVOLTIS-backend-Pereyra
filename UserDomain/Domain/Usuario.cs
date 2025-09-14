@@ -42,6 +42,7 @@ namespace UserDomain.Domain
                 throw new InvalidOperationException("Ya existe Domicilio para este Usuario");
             
             _domicilios.Add(new Domicilio(this, calle, numero, provincia, ciudad));
+            Actualizar();
         }
 
         private bool ValidateNullString(string?[] value) => value.All(p => !string.IsNullOrEmpty(p));
@@ -49,11 +50,13 @@ namespace UserDomain.Domain
         public void Renombrar(string name)
         {
             Nombre = name;
+            Actualizar();
         }
 
         public void CambiarEmail(string email)
         {
             Email = email;
+            Actualizar();
         }
 
         public bool ExisteDomicilio(string? calle, string? numero, string? provincia, string? ciudad)

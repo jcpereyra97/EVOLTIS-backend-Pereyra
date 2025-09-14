@@ -1,0 +1,22 @@
+[
+  {
+    "nombre": "Juan",
+    "email": "juan@test.com",
+    "domicilio": {
+      "calle": "San Martin",
+      "numero": "1234",
+      "provincia": "Córdoba",
+      "ciudad": "Córdoba"
+    }
+  },
+  {
+    "nombre": "Ana",
+    "email": "ana@test.com",
+    "domicilio": {
+      "calle": "Nuñez",
+      "numero": "4567",
+      "provincia": "Buenos Aires",
+      "ciudad": "CABA"
+    }
+  }
+]

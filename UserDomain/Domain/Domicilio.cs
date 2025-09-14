@@ -33,21 +33,25 @@ namespace UserDomain.Domain
         public void ActualizarCalle(string calle)
         {
             Calle = calle;
+            Actualizar();
         }
 
         public void ActualizarProvincia(string provincia)
         {
             Provincia = provincia;
+            Actualizar();
         }
 
         public void ActualizarCiudad(string ciudad)
         {
             Ciudad = ciudad;
+            Actualizar();
         }
 
         public void ActualizarNumero(string numero)
         {
             Numero = numero;
+            Actualizar();
         }
 
         public void EliminarDomicilio() { Activo = false; Actualizar(); }
