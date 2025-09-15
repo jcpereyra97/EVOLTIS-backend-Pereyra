@@ -51,7 +51,7 @@ Para ejecutar la aplicacion se puede hacer de dos maneras una vez clonado el rep
 
 ### Docker
 
-Cree un archivo docker-compose.yml donde:
+Cree un archivo `docker-compose.yml` donde:
 - Levanta una instancia de la api del proyecto
 - Levanta una instancia de la base de datos con MySQL
 - Levanta una instancioa de adminer como manager web de la base de datos
@@ -73,7 +73,7 @@ Una corriendo todos los servicios, podemos entrar a
 ### Manual
 
 Tener instalado:
-- .NET SDK 8.0.401 
+- .NET SDK 8.0.401 (https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.401/dotnet-sdk-8.0.401-win-x64.exe)
 - MySQL Server 8.x
 	
 Configurar la connection string en appsetings.json, para la BD local. Cambiar los siguientes valores por los que correspondan:
