@@ -19,7 +19,11 @@ namespace UserInfrastructure.Repositories
         {
             _appDbContext = appDbContext;
         }
-
+        /// <summary>
+        /// Agrega Usuario
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
         public async Task<int> AgregarUsuarioAsync(Usuario usuario)
         {
 
@@ -28,27 +32,41 @@ namespace UserInfrastructure.Repositories
             return usuario.ID;
 
         }
-
+        /// <summary>
+        /// Actualiza Usuario
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
         public async Task ActualizarUsuarioAsync(Usuario usuario)
         {
             _appDbContext.Update(usuario);
             await _appDbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Obtiene Usuario por ID incluyendo domicilios activos
+        /// </summary>
+        /// <param name="usuarioID"></param>
+        /// <returns></returns>
         public async Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID)
         {
             return await _appDbContext.Usuarios
                             .Include(p => p.Domicilios.Where(p => p.Activo))
                             .FirstOrDefaultAsync(p => p.Activo && p.ID == usuarioID );
         }
-
+        /// <summary>
+        /// Obtiene Usuarios por filtros y paginacion
+        /// </summary>
+        /// <param name="filtros"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public async Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros, int page = 1, int pageSize = 20)
         {
-
+            // Construir la consulta base con los filtros
             var query = _appDbContext.Usuarios.Where(filtros);
 
             var total = await query.CountAsync();
-
+            // Aplicar paginación
             var items = await query
                        .OrderBy(u => u.ID)
                        .Skip((page - 1) * pageSize)
@@ -60,16 +78,5 @@ namespace UserInfrastructure.Repositories
             return new PaginationResult<Usuario>(items, page, pageSize, total);
         }
 
-        public async Task EliminarUsuarioPorId(int usuarioID)
-        {
-            var usuario = await _appDbContext.FindAsync<Usuario>(usuarioID);
-            if (usuario == null)
-                throw new Exception();
-
-            _appDbContext.Remove<Usuario>(usuario);
-            await _appDbContext.SaveChangesAsync();
-
-
-        }
     }
 }

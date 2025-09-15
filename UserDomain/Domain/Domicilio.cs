@@ -55,7 +55,7 @@ namespace UserDomain.Domain
         }
 
         public void EliminarDomicilio() { Activo = false; Actualizar(); }
-
+        // Actualiza la fecha de última modificación
         private void Actualizar() => FechaUltimaActualizacion = DateTime.UtcNow;
 
     }

@@ -17,6 +17,7 @@ namespace UserInfrastructure.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configuración global para MySQL
             modelBuilder.HasCharSet("utf8mb4").UseCollation("utf8mb4_0900_ai_ci");
 
             modelBuilder.Entity<Usuario>(p =>
@@ -26,11 +27,12 @@ namespace UserInfrastructure.EF
                 p.Property(x => x.ID).ValueGeneratedOnAdd(); 
                 p.Property(x => x.Nombre).IsRequired().HasMaxLength(100);
                 p.Property(x => x.Email).IsRequired().HasMaxLength(100);
+                // Email unico
                 p.HasIndex(x => x.Email).IsUnique();
                 p.Property(x => x.FechaCreacion).IsRequired();
                 p.Property(x => x.Activo).IsRequired();
                 p.Property(x => x.FechaUltimaActualizacion);
-
+                // Relacion uno a muchos con Domicilios
                 p.HasMany(x => x.Domicilios)
                     .WithOne(x => x.Usuario)
                     .HasForeignKey(f => f.UsuarioID)
@@ -48,6 +50,7 @@ namespace UserInfrastructure.EF
                 p.Property(x => x.Provincia).IsRequired().HasMaxLength(100);
                 p.Property(x => x.Ciudad).IsRequired().HasMaxLength(100);
                 p.Property(x => x.FechaCreacion).IsRequired();
+                // Indice en UsuarioID para optimizar consultas
                 p.HasIndex(x => x.UsuarioID);
                 p.Property(x => x.Activo).IsRequired();
                 p.Property(x => x.FechaUltimaActualizacion);

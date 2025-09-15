@@ -24,8 +24,7 @@ builder.Services.AddSwaggerGen();
 
 var cs = builder.Configuration.GetConnectionString("Default");
 
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 36)); // MySQL 8.x
-
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 36)); 
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseMySql(cs, serverVersion, o =>
     {
@@ -49,17 +48,13 @@ builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-
-
 app.UseSwagger();
 app.UseSwaggerUI();
 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate(); // crea BD y aplica migraciones pendientes
+    db.Database.Migrate();
 }
 
 
