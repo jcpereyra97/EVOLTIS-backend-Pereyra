@@ -56,22 +56,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-var runMigrations = builder.Configuration.GetValue<bool>("RunMigrationsAtStartup");
-
-if (runMigrations)
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    try
-    {
-        db.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        app.Logger.LogError(ex, "Fallo ejecutando migrations al inicio.");
-        // Opcional: volver a lanzar en Prod; en Dev podés dejar continuar para no bloquear Swagger
-        if (!app.Environment.IsDevelopment()) throw;
-    }
+    db.Database.Migrate(); // crea BD y aplica migraciones pendientes
 }
 
 
