@@ -15,7 +15,6 @@ namespace UserInfrastructure.Interfaces
         Task ActualizarUsuarioAsync(Usuario usuario);
         Task<Usuario?> ObtenerUsuarioPorIdAsync(int usuarioID);
         Task<PaginationResult<Usuario>> ObtenerUsuariosPorFiltrosAsync(Expression<Func<Usuario, bool>> filtros, int page = 1, int pageSize = 20);
-        Task EliminarUsuarioPorId(int usuarioID);
 
     }
 }
